@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketAI Suite — AI-Powered Sales & Marketing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    /* ── Page Visibility ── */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ── Feature card animation delays ── */
+    .feature-card:nth-child(1) { animation-delay: 0.15s; }
+    .feature-card:nth-child(2) { animation-delay: 0.25s; }
+    .feature-card:nth-child(3) { animation-delay: 0.35s; }
+
+    /* ── Violet tool colors ── */
+    .tool-page.pitch .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+    }
+    .tool-page.pitch .btn-primary:hover {
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.45);
+    }
+    .tool-page.pitch .form-input:focus,
+    .tool-page.pitch .form-textarea:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+    .tool-page.pitch .result-title,
+    .tool-page.pitch .tool-tag { color: #a78bfa; }
+
+    /* ── Emerald tool colors ── */
+    .tool-page.lead .btn-primary {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+    .tool-page.lead .btn-primary:hover {
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45);
+    }
+    .tool-page.lead .form-input:focus,
+    .tool-page.lead .form-textarea:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    .tool-page.lead .result-title,
+    .tool-page.lead .tool-tag { color: #34d399; }
+
+    /* ── Notification toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 20px;
+      color: #f0f4ff;
+      font-size: 0.875rem;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║              NAVIGATION                  ║
+     ╚══════════════════════════════════════════╝ -->
+<nav class="navbar">
+  <a href="#" class="nav-brand" onclick="showPage('home')">
+    <div class="nav-logo">📈</div>
+    <span class="nav-title">Market<span>AI</span> Suite</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" id="nav-home" class="active" onclick="showPage('home')">🏠 Home</a></li>
+    <li><a href="#" id="nav-campaign" onclick="showPage('campaign')">📣 Campaign</a></li>
+    <li><a href="#" id="nav-pitch" onclick="showPage('pitch')">🎯 Pitch</a></li>
+    <li><a href="#" id="nav-lead" onclick="showPage('lead')">⭐ Lead Score</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║               HOME PAGE                  ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="page-home" class="page-section active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Powered by Groq LLaMA 3.3 70B
+      </div>
+      <h1 class="hero-title">
+        AI-Powered<br />
+        <span class="gradient-text">Sales & Marketing</span><br />
+        Intelligence
+      </h1>
+      <p class="hero-subtitle">
+        Generate high-performing campaigns, craft compelling pitches, and qualify leads with advanced AI technology — all in seconds.
+      </p>
+      <a href="#" class="hero-cta" onclick="showPage('campaign')">
+        Get Started Free →
+      </a>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-number">3x</div>
+        <div class="stat-label">Faster Campaign Creation</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">92%</div>
+        <div class="stat-label">Lead Scoring Accuracy</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10s</div>
+        <div class="stat-label">Avg. Response Time</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Feature Cards -->
+    <div class="features-grid">
+
+      <a href="#" class="feature-card" onclick="showPage('campaign')" style="--card-gradient: var(--gradient-blue);">
+        <div class="card-icon blue">📣</div>
+        <div class="card-title">Campaign Generator</div>
+        <p class="card-desc">Create data-driven marketing campaigns tailored to your specific audience and platform with AI-powered insights.</p>
+        <span class="card-arrow">Generate Campaign →</span>
+      </a>
+
+      <a href="#" class="feature-card" onclick="showPage('pitch')" style="--card-gradient: var(--gradient-violet);">
+        <div class="card-icon violet">🎯</div>
+        <div class="card-title">Sales Pitch Creator</div>
+        <p class="card-desc">Craft compelling, personalized sales pitches that resonate with your target customers and drive conversions.</p>
+        <span class="card-arrow" style="color: var(--accent-violet);">Create Pitch →</span>
+      </a>
+
+      <a href="#" class="feature-card" onclick="showPage('lead')" style="--card-gradient: var(--gradient-emerald);">
+        <div class="card-icon emerald">⭐</div>
+        <div class="card-title">Lead Qualifier</div>
+        <p class="card-desc">Identify and prioritize high-value leads using intelligent scoring to maximize your sales efficiency and ROI.</p>
+        <span class="card-arrow" style="color: var(--accent-emerald);">Score Lead →</span>
+      </a>
+
+    </div>
+
+    <!-- Supported Platforms -->
+    <div class="platforms-section">
+      <p class="section-label">Supported Platforms</p>
+      <div class="platforms-grid">
+        <div class="platform-pill">💼 LinkedIn</div>
+        <div class="platform-pill">📘 Facebook</div>
+        <div class="platform-pill">📸 Instagram</div>
+        <div class="platform-pill">🐦 Twitter/X</div>
+        <div class="platform-pill">▶️ YouTube</div>
+        <div class="platform-pill">✉️ Email</div>
+        <div class="platform-pill">🎵 TikTok</div>
+        <div class="platform-pill">💬 WhatsApp</div>
+      </div>
+    </div>
+
+  </div><!-- /home -->
+
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║          CAMPAIGN GENERATOR              ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="page-campaign" class="page-section">
+    <div class="tool-page">
+
+      <div class="tool-header">
+        <div class="tool-tag">📣 AI Tool</div>
+        <h1 class="tool-title">Campaign Generator</h1>
+        <p class="tool-subtitle">Create data-driven marketing campaigns tailored to your audience</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label class="form-label" for="campaign-product">Product Name</label>
+          <input type="text" id="campaign-product" class="form-input"
+            placeholder="e.g., AI Analytics Platform, Dairy Milk Silk, SaaS CRM tool" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="campaign-audience">Target Audience</label>
+          <input type="text" id="campaign-audience" class="form-input"
+            placeholder="e.g., Health-conscious millennials, Fortune 500 IT Directors, small business owners" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="campaign-platform">Marketing Platform</label>
+          <input type="text" id="campaign-platform" class="form-input"
+            placeholder="e.g., LinkedIn, Instagram, Twitter/X, Email, TikTok" />
+        </div>
+
+        <div style="margin-top: 1.75rem;">
+          <div class="loading-state" id="campaign-loading">
+            <div class="spinner"></div>
+            <span>Generating your campaign strategy...</span>
+          </div>
+          <div class="form-actions" id="campaign-actions">
+            <button class="btn-primary" onclick="generateCampaign()">
+              ✨ Generate Campaign
+            </button>
+            <button class="btn-secondary" onclick="clearForm('campaign')">
+              ✕ Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card" id="campaign-result">
+        <div class="result-header">
+          <span class="result-title">📊 Your Campaign Strategy</span>
+          <button class="copy-btn" onclick="copyResult('campaign-output')">📋 Copy</button>
+        </div>
+        <div class="result-body" id="campaign-output"></div>
+      </div>
+
+    </div>
+  </div><!-- /campaign -->
+
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║          SALES PITCH CREATOR             ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="page-pitch" class="page-section">
+    <div class="tool-page pitch">
+
+      <div class="tool-header">
+        <div class="tool-tag">🎯 AI Tool</div>
+        <h1 class="tool-title">Sales Pitch Creator</h1>
+        <p class="tool-subtitle">Craft compelling, personalized sales pitches for your target customers</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label class="form-label" for="pitch-product">Product / Solution Name</label>
+          <input type="text" id="pitch-product" class="form-input"
+            placeholder="e.g., Cloud-based inventory management system, B2B CRM platform" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="pitch-customer">Customer Persona</label>
+          <textarea id="pitch-customer" class="form-textarea"
+            placeholder="e.g., Operations Director at a Fortune 500 retail company, scaling across 500+ stores, focused on reducing stockouts and improving supply chain visibility"></textarea>
+        </div>
+
+        <div style="margin-top: 1.75rem;">
+          <div class="loading-state" id="pitch-loading">
+            <div class="spinner"></div>
+            <span>Crafting your personalized pitch...</span>
+          </div>
+          <div class="form-actions" id="pitch-actions">
+            <button class="btn-primary" onclick="generatePitch()">
+              🎯 Generate Pitch
+            </button>
+            <button class="btn-secondary" onclick="clearForm('pitch')">
+              ✕ Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card" id="pitch-result">
+        <div class="result-header">
+          <span class="result-title">💼 Your Sales Pitch</span>
+          <button class="copy-btn" onclick="copyResult('pitch-output')">📋 Copy</button>
+        </div>
+        <div class="result-body" id="pitch-output"></div>
+      </div>
+
+    </div>
+  </div><!-- /pitch -->
+
+
+  <!-- ╔══════════════════════════════════════════╗
+       ║           LEAD QUALIFIER                 ║
+       ╚══════════════════════════════════════════╝ -->
+  <div id="page-lead" class="page-section">
+    <div class="tool-page lead">
+
+      <div class="tool-header">
+        <div class="tool-tag">⭐ AI Tool</div>
+        <h1 class="tool-title">Lead Qualifier</h1>
+        <p class="tool-subtitle">Identify and prioritize high-value leads with AI-powered scoring (0–100)</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label class="form-label" for="lead-name">Lead Name</label>
+          <input type="text" id="lead-name" class="form-input"
+            placeholder="e.g., Sarah Johnson, Rajesh Kumar" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-budget">Budget Quality</label>
+          <input type="text" id="lead-budget" class="form-input"
+            placeholder="e.g., $150,000 annual budget, can approve deals up to $50,000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-need">Business Need</label>
+          <textarea id="lead-need" class="form-textarea"
+            placeholder="e.g., Improving customer retention by 20%, reducing churn, streamlining onboarding"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="lead-urgency">Urgency Level</label>
+          <input type="text" id="lead-urgency" class="form-input"
+            placeholder="e.g., Board of directors requested solution by Q3, immediate implementation needed" />
+        </div>
+
+        <div style="margin-top: 1.75rem;">
+          <div class="loading-state" id="lead-loading">
+            <div class="spinner"></div>
+            <span>Analyzing lead qualification...</span>
+          </div>
+          <div class="form-actions" id="lead-actions">
+            <button class="btn-primary" onclick="scoreLead()">
+              ⭐ Score Lead
+            </button>
+            <button class="btn-secondary" onclick="clearForm('lead')">
+              ✕ Clear
+            </button>
+          </div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
+          Scores help prioritize your sales efforts and maximize efficiency
+        </p>
+      </div>
+
+      <div class="result-card" id="lead-result">
+        <div class="result-header">
+          <span class="result-title">📊 Lead Qualification Analysis</span>
+          <button class="copy-btn" onclick="copyResult('lead-output')">📋 Copy</button>
+        </div>
+        <div class="result-body" id="lead-output"></div>
+      </div>
+
+    </div>
+  </div><!-- /lead -->
+
+</div><!-- /page-wrapper -->
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================
+   PAGE NAVIGATION
+   ============================================ */
+function showPage(page) {
+  // Hide all pages
+  document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+
+  // Show target page
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+function showToast(message, emoji = '✅') {
+  const toast = document.getElementById('toast');
+  toast.innerHTML = `${emoji} ${message}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ============================================
+   LOADING STATE HELPERS
+   ============================================ */
+function setLoading(prefix, isLoading) {
+  const loading = document.getElementById(prefix + '-loading');
+  const actions = document.getElementById(prefix + '-actions');
+  if (isLoading) {
+    loading.classList.add('active');
+    actions.style.display = 'none';
+  } else {
+    loading.classList.remove('active');
+    actions.style.display = 'flex';
+  }
+}
+
+function showResult(prefix, text) {
+  const resultCard = document.getElementById(prefix + '-result');
+  const output = document.getElementById(prefix + '-output');
+  output.textContent = text;
+  resultCard.classList.add('show');
+  resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ============================================
+   CLEAR FORM
+   ============================================ */
+function clearForm(prefix) {
+  const inputs = document.querySelectorAll(`#page-${prefix} .form-input, #page-${prefix} .form-textarea`);
+  inputs.forEach(el => el.value = '');
+  const resultCard = document.getElementById(prefix + '-result');
+  if (resultCard) resultCard.classList.remove('show');
+}
+
+/* ============================================
+   COPY RESULT
+   ============================================ */
+function copyResult(outputId) {
+  const text = document.getElementById(outputId).textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Copied to clipboard!');
+  }).catch(() => {
+    showToast('Copy failed — please select and copy manually', '⚠️');
+  });
+}
+
+/* ============================================
+   CAMPAIGN GENERATOR
+   ============================================ */
+async function generateCampaign() {
+  const product  = document.getElementById('campaign-product').value.trim();
+  const audience = document.getElementById('campaign-audience').value.trim();
+  const platform = document.getElementById('campaign-platform').value.trim();
+
+  if (!product || !audience || !platform) {
+    showToast('Please fill in all fields before generating', '⚠️');
+    return;
+  }
+
+  setLoading('campaign', true);
+  document.getElementById('campaign-result').classList.remove('show');
+
+  try {
+    const formData = new FormData();
+    formData.append('product', product);
+    formData.append('audience', audience);
+    formData.append('platform', platform);
+
+    const response = await fetch('/generate_campaign', { method: 'POST', body: formData });
+    const data = await response.json();
+    showResult('campaign', data.result);
+    showToast('Campaign generated successfully!');
+  } catch (error) {
+    showResult('campaign', '❌ Error generating campaign. Please check your connection and try again.');
+  } finally {
+    setLoading('campaign', false);
+  }
+}
+
+/* ============================================
+   PITCH GENERATOR
+   ============================================ */
+async function generatePitch() {
+  const product  = document.getElementById('pitch-product').value.trim();
+  const customer = document.getElementById('pitch-customer').value.trim();
+
+  if (!product || !customer) {
+    showToast('Please fill in all fields before generating', '⚠️');
+    return;
+  }
+
+  setLoading('pitch', true);
+  document.getElementById('pitch-result').classList.remove('show');
+
+  try {
+    const formData = new FormData();
+    formData.append('product', product);
+    formData.append('customer', customer);
+
+    const response = await fetch('/generate_pitch', { method: 'POST', body: formData });
+    const data = await response.json();
+    showResult('pitch', data.result);
+    showToast('Sales pitch created successfully!');
+  } catch (error) {
+    showResult('pitch', '❌ Error generating pitch. Please check your connection and try again.');
+  } finally {
+    setLoading('pitch', false);
+  }
+}
+
+/* ============================================
+   LEAD SCORING
+   ============================================ */
+async function scoreLead() {
+  const name    = document.getElementById('lead-name').value.trim();
+  const budget  = document.getElementById('lead-budget').value.trim();
+  const need    = document.getElementById('lead-need').value.trim();
+  const urgency = document.getElementById('lead-urgency').value.trim();
+
+  if (!name || !budget || !need || !urgency) {
+    showToast('Please fill in all fields before scoring', '⚠️');
+    return;
+  }
+
+  setLoading('lead', true);
+  document.getElementById('lead-result').classList.remove('show');
+
+  try {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('budget', budget);
+    formData.append('need', need);
+    formData.append('urgency', urgency);
+
+    const response = await fetch('/lead_score', { method: 'POST', body: formData });
+    const data = await response.json();
+    showResult('lead', data.result);
+    showToast('Lead scored successfully!');
+  } catch (error) {
+    showResult('lead', '❌ Error scoring lead. Please check your connection and try again.');
+  } finally {
+    setLoading('lead', false);
+  }
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Prevent default link navigation
+  document.querySelectorAll('.nav-links a, .feature-card, .hero-cta').forEach(el => {
+    el.addEventListener('click', e => e.preventDefault());
+  });
+});
+</script>
+
+</body>
+</html>
