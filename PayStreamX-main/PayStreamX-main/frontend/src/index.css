@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================== CSS Custom Properties ==================== */
+:root {
+  --color-blue: #2563EB;
+  --color-green: #22C55E;
+  --color-purple: #7C3AED;
+  --color-navy: #0F172A;
+  --color-navy-light: #1E293B;
+
+  --gradient-primary: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --gradient-green: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+  --gradient-blue-green: linear-gradient(135deg, #2563EB 0%, #22C55E 100%);
+  --gradient-purple-blue: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);
+  --gradient-dark: linear-gradient(180deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+  --gradient-card: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+
+  --glass-bg: rgba(30, 41, 59, 0.5);
+  --glass-border: rgba(37, 99, 235, 0.12);
+  --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.1);
+  --shadow-glow-green: 0 0 30px rgba(34, 197, 94, 0.15);
+  --shadow-glow-purple: 0 0 30px rgba(124, 58, 237, 0.15);
+}
+
+/* ==================== Base Styles ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+  background: var(--color-navy);
+  color: #e2e8f0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==================== Scrollbar ==================== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--color-navy); }
+::-webkit-scrollbar-thumb { background: var(--color-blue); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-purple); }
+
+/* ==================== Glass Card ==================== */
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border p-6;
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-glow);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .glass-card:hover {
+    border-color: rgba(37, 99, 235, 0.25);
+    box-shadow: 0 0 50px rgba(37, 99, 235, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+  }
+  .glass-card-static {
+    @apply rounded-2xl border p-6;
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glass-card-green {
+    @apply glass-card;
+    border-color: rgba(34, 197, 94, 0.15);
+    box-shadow: var(--shadow-glow-green);
+  }
+  .glass-card-green:hover {
+    border-color: rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 50px rgba(34, 197, 94, 0.2);
+  }
+
+  .glass-card-purple {
+    @apply glass-card;
+    border-color: rgba(124, 58, 237, 0.15);
+    box-shadow: var(--shadow-glow-purple);
+  }
+  .glass-card-purple:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 50px rgba(124, 58, 237, 0.2);
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: var(--gradient-primary);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 30px rgba(37, 99, 235, 0.5);
+    transform: translateY(-2px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-green {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: var(--gradient-green);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  }
+  .btn-green:hover {
+    box-shadow: 0 6px 30px rgba(34, 197, 94, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-purple {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: var(--gradient-purple-blue);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+  }
+  .btn-purple:hover {
+    box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: rgba(100, 116, 139, 0.2);
+    border: 1px solid rgba(100, 116, 139, 0.25);
+  }
+  .btn-secondary:hover { background: rgba(100, 116, 139, 0.4); }
+
+  .btn-danger {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+  .btn-danger:hover { background: rgba(239, 68, 68, 0.35); }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm rounded-lg font-medium;
+  }
+
+  /* ---- Inputs ---- */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl text-white placeholder-slate-500 transition-all duration-300 outline-none;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(100, 116, 139, 0.15);
+  }
+  .input-field:focus {
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  /* ---- Badges ---- */
+  .badge { @apply px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider; }
+  .badge-active {
+    @apply badge;
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.25);
+  }
+  .badge-pending {
+    @apply badge;
+    background: rgba(234, 179, 8, 0.12);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.25);
+  }
+  .badge-completed {
+    @apply badge;
+    background: rgba(37, 99, 235, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(37, 99, 235, 0.25);
+  }
+  .badge-cancelled {
+    @apply badge;
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+
+  /* ---- Section Header ---- */
+  .section-title {
+    @apply text-lg font-bold text-white flex items-center gap-2;
+  }
+  .section-subtitle {
+    @apply text-xs text-slate-500 uppercase tracking-widest font-medium mt-1;
+  }
+}
+
+/* ==================== Animated Background ==================== */
+.bg-mesh {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+  background:
+    radial-gradient(ellipse at 15% 30%, rgba(37, 99, 235, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(34, 197, 94, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(37, 99, 235, 0.03) 0%, transparent 40%);
+}
+
+/* ==================== Live Counter ==================== */
+.counter-glow {
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.6), 0 0 40px rgba(37, 99, 235, 0.3);
+}
+
+.counter-glow-blue {
+  text-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 40px rgba(124, 58, 237, 0.3);
+}
+
+/* ==================== Hero Salary Counter ==================== */
+.salary-hero {
+  @apply relative overflow-hidden rounded-3xl p-8;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(34, 197, 94, 0.08) 50%, rgba(124, 58, 237, 0.1) 100%);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+.salary-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(37, 99, 235, 0.05), transparent, rgba(34, 197, 94, 0.03), transparent);
+  animation: rotate-bg 20s linear infinite;
+}
+@keyframes rotate-bg {
+  100% { transform: rotate(360deg); }
+}
+
+/* ==================== Progress Ring ==================== */
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.5s ease;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* ==================== Progress Bar ==================== */
+.progress-bar {
+  @apply h-2 rounded-full overflow-hidden;
+  background: rgba(100, 116, 139, 0.15);
+}
+.progress-bar-fill {
+  @apply h-full rounded-full transition-all duration-1000 ease-linear;
+  background: var(--gradient-blue-green);
+}
+.progress-bar-green .progress-bar-fill { background: var(--gradient-green); }
+.progress-bar-purple .progress-bar-fill { background: var(--gradient-purple-blue); }
+
+/* ==================== Table ==================== */
+.data-table { @apply w-full text-left; }
+.data-table thead th {
+  @apply px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-700/40;
+}
+.data-table tbody td {
+  @apply px-4 py-4 text-sm border-b border-slate-700/20;
+}
+.data-table tbody tr { @apply transition-colors duration-200; }
+.data-table tbody tr:hover { background: rgba(37, 99, 235, 0.04); }
+
+/* ==================== Wallet Divider ==================== */
+.wallet-segment {
+  @apply h-3 rounded-full transition-all duration-500;
+}
+
+/* ==================== Pulse Dot ==================== */
+.pulse-dot {
+  @apply relative;
+}
+.pulse-dot::after {
+  content: '';
+  @apply absolute w-2 h-2 rounded-full;
+  background: #22C55E;
+  top: 50%; right: -8px;
+  transform: translateY(-50%);
+  animation: pulse-green 2s ease-in-out infinite;
+}
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+}
+
+/* ==================== Sparkline ==================== */
+.sparkline-path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
